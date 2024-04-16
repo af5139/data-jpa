@@ -1,5 +1,6 @@
 package study.datajpa.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ public class Team {
     private Long id;
     private String name;
 
+    //@JsonIgnore
     @OneToMany(mappedBy = "team")
     private List<Member> members = new ArrayList<>();
 

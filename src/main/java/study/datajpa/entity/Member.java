@@ -1,5 +1,6 @@
 package study.datajpa.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,8 +16,8 @@ public class Member {
     private Long id;
     private String username;
     private int age;
-
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
 
@@ -30,6 +31,12 @@ public class Member {
             changeTeam(team);
         }
     }
+
+    public Member(String username, int age) {
+        this.username = username;
+        this.age = age;
+    }
+
     public void changeTeam(Team team){
         this.team = team;
         team.getMembers().add(this);

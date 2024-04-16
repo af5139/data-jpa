@@ -13,7 +13,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Transactional
-@Rollback(value = false)
+@Rollback(value = true)
 class MemberTest {
 
     @PersistenceContext
@@ -41,11 +41,11 @@ class MemberTest {
 
         List<Member> members = em.createQuery("select m from Member m", Member.class)
                 .getResultList();
-
         for (Member member : members) {
             System.out.println("member = " + member);
             System.out.println("-> member.team =" +member.getTeam());
         }
+
     }
 
 }

@@ -2,6 +2,10 @@ package study.datajpa;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import study.datajpa.entity.Member;
+import study.datajpa.entity.Team;
+
+import javax.annotation.PostConstruct;
 
 @SpringBootApplication
 public class DataJpaApplication {
