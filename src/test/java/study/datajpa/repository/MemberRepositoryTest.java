@@ -12,6 +12,8 @@ import study.datajpa.dto.MemberDto;
 import study.datajpa.entity.Member;
 import study.datajpa.entity.Team;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +29,8 @@ public class MemberRepositoryTest {
     @Autowired
     TeamRepository teamRepository;
 
+    @PersistenceContext
+    EntityManager em;
     @Test
     public void testMember(){
         Member member = new Member("memberA");
@@ -124,6 +128,36 @@ public class MemberRepositoryTest {
         assertThat(page.isFirst()).isTrue();
         assertThat(page.hasNext()).isTrue();
 
+    }
 
+    @Test
+    public void findMemberLazy(){
+        Team teamA = new Team("teamA");
+        Team teamB = new Team("teamB");
+        teamRepository.save(teamA);
+        teamRepository.save(teamB);
+
+        Member member1 = new Member("member1",10,teamA);
+        Member member2 = new Member("member2",10,teamA);
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+
+        em.flush();
+        em.clear();
+
+        List<Member> members = memberRepository.findAll();
+    }
+
+    @Test
+    public void queryHint(){
+        Member member1 = new Member("member1",10);
+        memberRepository.save(member1);
+        em.flush();
+        em.clear();
+
+        Member findMember = memberRepository.findById(member1.getId()).get();
+        findMember.setUsername("member2");
+
+        em.flush();
     }
 }
