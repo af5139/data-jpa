@@ -155,9 +155,17 @@ public class MemberRepositoryTest {
         em.flush();
         em.clear();
 
-        Member findMember = memberRepository.findById(member1.getId()).get();
+        Member findMember = memberRepository.findReadOnlyByUsername("member1");
         findMember.setUsername("member2");
 
         em.flush();
+    }
+
+    @Test
+    public void callCustom(){
+        List<Member> result = memberRepository.findMemberCustom();
+        for (Member member : result) {
+            System.out.println("member = " + member);
+        }
     }
 }
